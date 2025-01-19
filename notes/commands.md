@@ -9,8 +9,8 @@ Most docker commands have an alias that has the word `container` before the comm
 - `docker kill <name>:` Kill a container
 - `docker rm <container_name|id>:` Remove a container use `-f` to forcefully remove running containers
 - `docker container prune [-f]:` Remove all container `-f` removes without confirmation prompt.
-- 
-- `docker exec [flags] <container_name> <command>`: Execute a command in a running container. The flags are mostly the same as the `docker run` command flag
+- `docker container attach <container_name>:` Attach terminal to a running container. Use `Ctrl + P + Q` to detach
+
 
 ### Images
 - `docker images:`: Show all images on the host

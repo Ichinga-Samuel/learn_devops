@@ -5,8 +5,8 @@ Docker has three integral components, _the runtime_, _the daemon_ and the _orche
 ![img.png](img.png)
 
 ## The Runtime
-The runtime operates at the lowest level and is responsible for starting and stopping
-containers (this includes building all of the OS constructs such as namespaces and
+The runtime operates at the lowest level and is responsible for starting and stopping containers 
+(this includes building all of the OS constructs such as namespaces and
 cgroups). Docker implements a tiered runtime architecture with high-level and lowlevel runtimes that work together.
 The low-level runtime is called _runc_ and is the reference implementation of Open
 Containers Initiative (OCI) runtime-spec. Its job is to interface with the underlying OS

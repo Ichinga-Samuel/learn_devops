@@ -46,14 +46,13 @@ macvlan100
 ```
 
 ### Service Discovery
-This is provided by _libnetwork_ and allows all containers and swarm services to locate each other by name.\
-This is enabled by the fact that all docker containers have a DNS resolver and the docker DNS server.\
-However, service discovery is network-scoped, meaning name resolution only works for containers and Services on the same network.\
+This is provided by _libnetwork_ and allows all containers and swarm services to locate each other by name.
+This is enabled by the fact that all docker containers have a DNS resolver and the docker DNS server.
+However, service discovery is network-scoped, meaning name resolution only works for containers and Services on the same network.
 Use the `--dns` and `--dns-search` flags to enable custom dns service and dns domain name search space during container creation.
 
 ### Ingress Load Balancing
-Swarm services can be published via _ingress_ mode by default or via _host_ mode. Services published via ingress mode can be accessed from any node in the Swarm —
-even nodes not running a service replica. Services published via host mode can only be
-accessed by hitting nodes running service replicas.\
-To specify host mode use the `--published` flag in long mode.\
-`--published published=<host_port>,target=<container_port>,mode=<host|ingress>`
+Swarm services can be published via _ingress_ mode by default or via _host_ mode. Services published via ingress
+mode can be accessed from any node in the Swarm even nodes not running a service replica. Services published via host
+mode can only be accessed by hitting nodes running service replicas. To specify host mode use the `--published` flag in
+long mode. `--published published=<host_port>,target=<container_port>,mode=<host|ingress>`

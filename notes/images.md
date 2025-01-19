@@ -1,8 +1,8 @@
-## Docker Images the Deep Dive
+# Docker Images 
 Images contain just enough operating system to run a specific application. They are built in layers, and each layer is
 a set of changes to the previous layer. The layers are stacked on top of each other to create the final image.
 
-### Pulling an Image from Docker Hub
+## Pulling an Image from Docker Hub
 To pull an image from Docker Hub, use the `docker pull <image>:<tag>` command or the `docker image pull <image>:<tag>`
 If you don't specify a tag, Docker will pull the latest version of the image with the `latest` tag.
 To pull from an unofficial repository, you need to specify the username and the repository name.
@@ -10,28 +10,25 @@ To pull from an unofficial repository, you need to specify the username and the 
 ```bash
 docker pull <dockerhub_username>/<repository_name>/<image>:<tag>
 ```
-To pull from other registries than Docker Hub, you need to specify the registry URL.\
+To pull from other registries than Docker Hub, you need to specify the registry URL.
 ```bash
 docker pull <registry_url>/<repository_name>/<image>:<tag>
 ```
 
-### Listing Images
-To list the images on your system, use the `docker images` command.\
+## Listing Images
+To list the images on your system, use the `docker images` command.
 ```bash
 docker images
 ```
-Filter images by name or tag using the `--filter` flag.\
-```bash
-docker images --filter <filter>
-docker images --filter dangling=true # List dangling images i.e. images that are no longer tagged
-```
-Other filters include 
-- `before` - List images created before a specific image
-- `since` - List images created since a specific image
-- `label` - List images with a specific label
-- `reference` - List images with a specific reference `docker images --filter=reference="*:latest`
-Images listed by the `docker images` command include the image ID, repository, tag, image size, and creation date.\
-This output can be filtered using the `--format` flag. This flag takes a Go template as an argument.
+| Option                                    | Default | Description                                                |
+|-------------------------------------------|---------|------------------------------------------------------------|
+| `-a`                                      |         | Show all images including intermediates                    |
+| `-q`                                      |         | Show image id only                                         |
+| `--digests`                               |         | Show image digests                                         |
+| `--filter <before, since, label>=<image>` |         | Filter output based on conditions provided                 |
+| `--filter reference=<*:tag>`              |         | Filter output with reference based on tag                  |
+| `--filter danglin=true`                   | false   | List dangling images i.e. images that are no longer tagged |
+
 
 ### Image Layers
 A docker image is made up of multiple read only layers. We can see the layers of a docker image using the inspect command.
@@ -67,3 +64,54 @@ docker rmi <image_name>
 docker rmi <image_id>
 docker rmi $(docker images -q) -f # Delete all images. -q flag returns only the image IDs
 ```
+
+### Image Tagging
+An image can have multiple tags. To tag an image, use the `docker tag` command. The tag is in the format `repository:tag`.
+```bash
+docker tag <image_id> <repository>:<tag>
+```
+
+### Image Build 
+When building an image, Docker uses the build context to access files and directories. The build context is the directory
+where the Dockerfile is located. The build context is sent to the Docker daemon, so it should be kept small.
+To specify a different build context, use the `-f` flag with the `docker build` command.
+```bash
+docker build -f <dockerfile_name> -t <image>:<tag> <build_context>
+
+docker build -t <image>:<tag> . # Use the current directory as the build context
+```
+
+## Saving and loading images
+
+Dockers images can be saved to a tarball file and loaded back into the system. This is useful when you want to move an image
+from one system to another without pushing it to a registry.
+
+```bash
+docker save -o <filename> <image>:[tag]
+docker load -i <filename>
+```
+| Flags | Description                              |
+|-------|------------------------------------------|
+| `-o`  | Save file instead of streaming to stdout |
+| `-i`  | Load from file                           |
+
+## Create Image from a container
+```bash
+docker container commit <containername> <imagename>
+```
+| Flag           | Description         |
+|----------------|---------------------|
+| `-a --author`  | Author of the image |
+| `-m --message` | Commit message      |
+
+## Build images from a Dockerfile
+```bash
+docker build -t <image_name>:<tag> <path_to_dockerfile>
+docker build -t <image_name>:<tag> -f <dockerfile_name> <path_to_dockerfile>
+```
+| Flag          | Description                              |
+|---------------|------------------------------------------|
+| `-t`          | Tag the image                            |
+| `-f`          | Specify the Dockerfile name              |
+| `--build-arg` | Pass build arguments to the Dockerfile   |
+| `--no-cache`  | Do not use cache when building the image |

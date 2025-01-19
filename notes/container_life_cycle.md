@@ -1,11 +1,7 @@
 ## Containers
 Containers perform OS virtualization — they carve OS resources into virtual versions called containers.
 
-### Container Lifecycle
-Create start and run a container using the `docker run` command.\
-```bash
-docker run --name <container_name> [-it] <image_name>:<tag> [command]
-```
+
 Stop a container using the `docker stop` command.
 ```bash
 docker stop <container_name>
@@ -70,7 +66,6 @@ docker run --restart on-failure <image_name>
 ```bash
 docker run --restart no <image_name>
 ```
-
 Inspect a container to see the restart policy using the `docker inspect` command.
 ```bash
 docker inspect <container_name> --format '{{.HostConfig.RestartPolicy.Name}}'
